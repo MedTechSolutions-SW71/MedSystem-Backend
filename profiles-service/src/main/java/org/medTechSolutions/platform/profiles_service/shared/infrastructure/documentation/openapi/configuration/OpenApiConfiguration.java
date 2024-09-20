@@ -20,7 +20,7 @@ public class OpenApiConfiguration {
                 .info(new Info()
                         .title("MedSystem Platform API")
                         .description("MedSystem Platform application REST API documentation.")
-                        .version("v1.0.0")
+                        .version("v2.0.0")
                         .license(new License().name("Apache 2.0")
                                 .url("https://www.apache.org/licenses/LICENSE-2.0.html")))
                 .externalDocs(new ExternalDocumentation()
