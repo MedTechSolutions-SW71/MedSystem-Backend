@@ -1,4 +1,6 @@
-package org.medTechSolutions.platform.profiles_service.shared.infrastructure.persistence.jpa.configuration.strategy;
+package org.medTechSolutions.platform.email_service.shared.infrastructure.persistence.jpa.configuration.strategy;
+
+
 import org.hibernate.boot.model.naming.Identifier;
 import org.hibernate.boot.model.naming.PhysicalNamingStrategy;
 import org.hibernate.engine.jdbc.env.spi.JdbcEnvironment;
@@ -7,7 +9,6 @@ import static io.github.encryptorcode.pluralize.Pluralize.pluralize;
 
 public class SnakeCaseWithPluralizedTablePhysicalNamingStrategy implements PhysicalNamingStrategy {
     @Override
-
     public Identifier toPhysicalCatalogName(Identifier logicalName, JdbcEnvironment jdbcEnvironment) {
         return this.toSnakeCase(logicalName);
     }
@@ -47,4 +48,3 @@ public class SnakeCaseWithPluralizedTablePhysicalNamingStrategy implements Physi
         return Identifier.toIdentifier(newName);
     }
 }
-
