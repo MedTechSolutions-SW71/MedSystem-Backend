@@ -6,7 +6,7 @@ import org.medTechSolutions.platform.security_service.auth.interfaces.rest.resou
 
 public class SignInCommandFromResourceAssembler {
     public static SignInCommand toCommandFromResource(SignInResource signInResource) {
-        return new SignInCommand(signInResource.username(), signInResource.password());
+        return new SignInCommand(signInResource.email(), signInResource.password());
     }
 
 }

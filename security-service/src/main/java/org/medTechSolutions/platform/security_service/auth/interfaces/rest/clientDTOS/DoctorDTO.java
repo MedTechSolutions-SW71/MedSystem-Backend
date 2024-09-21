@@ -1,6 +1,6 @@
 package org.medTechSolutions.platform.security_service.auth.interfaces.rest.clientDTOS;
 
-public record doctorDTO(
+public record DoctorDTO(
         Long doctorId,
         String firstName,
         String lastName,

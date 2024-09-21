@@ -1,5 +1,5 @@
 package org.medTechSolutions.platform.security_service.auth.domain.model.queries;
 
-public record GetUserByUsernameQuery(String username) {
+public record GetUserByEmailQuery(String email) {
 
 }

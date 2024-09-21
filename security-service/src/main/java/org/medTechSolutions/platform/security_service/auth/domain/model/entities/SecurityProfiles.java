@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.medTechSolutions.platform.security_service.auth.domain.model.aggregates.User;
 
 import java.util.Objects;
 
@@ -18,26 +19,32 @@ public class SecurityProfiles {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "doctor_id", unique = true)
+    @Column(name = "doctor_id", unique = true, nullable = true)
     private Long doctorId;
 
-    @Column(name = "laboratory_id", unique = true)
+    @Column(name = "laboratory_id", unique = true, nullable = true)
     private Long laboratoryId;
 
-    @Column(name = "patient_id", unique = true)
+    @Column(name = "patient_id", unique = true, nullable = true)
     private Long patientId;
 
-    // verificamos si el usuario es el mismo que el perfil
+    // Relación bidireccional con User
+    @OneToOne
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    private User user;
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
         SecurityProfiles that = (SecurityProfiles) o;
-
-        if (!Objects.equals(doctorId, that.doctorId)) return false;
-        if (!Objects.equals(laboratoryId, that.laboratoryId)) return false;
-        return Objects.equals(patientId, that.patientId);
+        return Objects.equals(doctorId, that.doctorId) &&
+                Objects.equals(laboratoryId, that.laboratoryId) &&
+                Objects.equals(patientId, that.patientId);
     }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(doctorId, laboratoryId, patientId);
+    }
 }

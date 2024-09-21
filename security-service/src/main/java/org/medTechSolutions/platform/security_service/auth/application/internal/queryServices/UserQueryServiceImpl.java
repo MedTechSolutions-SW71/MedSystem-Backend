@@ -4,7 +4,7 @@ package org.medTechSolutions.platform.security_service.auth.application.internal
 import org.medTechSolutions.platform.security_service.auth.domain.model.aggregates.User;
 import org.medTechSolutions.platform.security_service.auth.domain.model.queries.GetAllUsersQuery;
 import org.medTechSolutions.platform.security_service.auth.domain.model.queries.GetUserByIdQuery;
-import org.medTechSolutions.platform.security_service.auth.domain.model.queries.GetUserByUsernameQuery;
+import org.medTechSolutions.platform.security_service.auth.domain.model.queries.GetUserByEmailQuery;
 import org.medTechSolutions.platform.security_service.auth.domain.services.UserQueryService;
 import org.medTechSolutions.platform.security_service.auth.infrastructure.persistence.jpa.repositories.UserRepository;
 import org.springframework.stereotype.Service;
@@ -33,8 +33,8 @@ public class UserQueryServiceImpl implements UserQueryService {
     }
 
     @Override
-    public Optional<User> handle(GetUserByUsernameQuery query) {
-        return userRepository.findByUsername(query.username());
+    public Optional<User> handle(GetUserByEmailQuery query) {
+        return userRepository.findByEmail(query.email());
     }
 
 }

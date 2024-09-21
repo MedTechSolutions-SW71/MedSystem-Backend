@@ -1,16 +1,16 @@
 package org.medTechSolutions.platform.security_service.auth.domain.services;
 
-import org.medTechSolutions.platform.security_service.auth.interfaces.rest.clientDTOS.createDoctorDTO;
-import org.medTechSolutions.platform.security_service.auth.interfaces.rest.clientDTOS.createLaboratoryDTO;
-import org.medTechSolutions.platform.security_service.auth.interfaces.rest.clientDTOS.createPatientDTO;
+import org.medTechSolutions.platform.security_service.auth.interfaces.rest.clientDTOS.CreateDoctorDTO;
+import org.medTechSolutions.platform.security_service.auth.interfaces.rest.clientDTOS.CreateLaboratoryDTO;
+import org.medTechSolutions.platform.security_service.auth.interfaces.rest.clientDTOS.CreatePatientDTO;
 
 import java.util.Optional;
 
 public interface SecurityProfilesService {
 
-    Optional<createDoctorDTO> createDoctorProfile(createDoctorDTO createDoctorDTO, Long doctorId);
-    Optional<createLaboratoryDTO> createLaboratoryProfile(createLaboratoryDTO createLaboratoryDTO, Long laboratoryId);
-    Optional<createPatientDTO> createPatientProfile(createPatientDTO createPatientDTO, Long patientId);
+    Optional<CreateDoctorDTO> createDoctorProfile(CreateDoctorDTO createDoctorDTO, Long doctorId);
+    Optional<CreateLaboratoryDTO> createLaboratoryProfile(CreateLaboratoryDTO createLaboratoryDTO, Long laboratoryId);
+    Optional<CreatePatientDTO> createPatientProfile(CreatePatientDTO createPatientDTO, Long patientId);
 
     // delete doctor profile
     void deleteDoctorProfile(Long doctorId);

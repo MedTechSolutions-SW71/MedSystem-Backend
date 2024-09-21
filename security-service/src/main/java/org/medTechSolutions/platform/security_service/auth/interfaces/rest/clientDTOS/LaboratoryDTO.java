@@ -1,10 +1,9 @@
 package org.medTechSolutions.platform.security_service.auth.interfaces.rest.clientDTOS;
 
-public record createDoctorDTO(
-        String firstName,
-        String lastName,
-        String specialization,
-        Integer licenceNumber,
+public record LaboratoryDTO(
+        Long laboratoryId,
+        String name,
+        String address,
         String phone
         // String email --> puede usar el email del usuario autenticado
 ) {
