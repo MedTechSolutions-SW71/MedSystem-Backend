@@ -24,6 +24,8 @@ public class EmailSender {
             helper.setTo(email.getTo());
             helper.setSubject(email.getSubject());
             helper.setFrom("galonso097@gmail.com");
+
+            javaMailSender.send(mimeMessage);
         } catch (MessagingException e) {
             throw new RuntimeException("Failed to send email", e);
         }
