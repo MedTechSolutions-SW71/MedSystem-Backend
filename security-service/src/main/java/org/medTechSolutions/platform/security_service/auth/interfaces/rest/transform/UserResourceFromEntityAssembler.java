@@ -10,7 +10,7 @@ public class UserResourceFromEntityAssembler {
 
         return new UserResource(
             entity.getId(),
-            entity.getUsername(),
+            entity.getEmail(),
             roles
         );
     }

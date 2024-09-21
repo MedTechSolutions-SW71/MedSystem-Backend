@@ -3,7 +3,7 @@ package org.medTechSolutions.platform.security_service.auth.interfaces.rest.reso
 import java.util.List;
 
 public record SignUpResource(
-    String username,
+    String email,
     String password,
     List<String> roles
 ) {
