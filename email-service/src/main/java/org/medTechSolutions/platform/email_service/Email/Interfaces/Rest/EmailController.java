@@ -1,5 +1,6 @@
 package org.medTechSolutions.platform.email_service.Email.Interfaces.Rest;
 
+import jakarta.mail.MessagingException;
 import org.medTechSolutions.platform.email_service.Email.Application.Internal.Commands.CommandsServices.EmailCommandServiceImpl;
 import org.medTechSolutions.platform.email_service.Email.Domain.Model.Commands.SendEmailCommand;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +20,12 @@ public class EmailController {
 
     @PostMapping("/send-email")
     public ResponseEntity<String> sendEmail(@RequestBody SendEmailCommand command){
-        emailService.handle(command);
-        return ResponseEntity.ok("Email sent");
+        try {
+            emailService.handle(command);
+            return ResponseEntity.ok("Email sent");
+        } catch (MessagingException e) {
+            return ResponseEntity.status(500).body("Failed to send email" + e.getMessage());
+        }
+
     }
 }
