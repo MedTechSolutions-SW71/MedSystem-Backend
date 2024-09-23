@@ -35,27 +35,17 @@ public class SecurityProfileServiceImpl implements SecurityProfilesService {
     @Override
     @Transactional
     public Optional<CreateDoctorDTO> createDoctorProfile(CreateDoctorDTO createDoctorDTO, Long doctorId) {
-        var userProfile = userRepository.findById(doctorId);
-
-        if (userProfile.isPresent() && createDoctorDTO != null) {
-            try {
-                DoctorDTO doctorDTO = profileClientRest.createDoctor(createDoctorDTO);
-
-                if (doctorDTO == null || doctorDTO.doctorId() == null) {
-                    throw new IllegalStateException("El servicio de creación de doctor no devolvió un ID.");
-                }
-
-                User user = userProfile.get();
-                SecurityProfiles securityProfiles = ensureSecurityProfileExists(user);
-                securityProfiles.setDoctorId(doctorDTO.doctorId());
-                userRepository.save(user);
-
-                return Optional.of(createDoctorDTO);
-            } catch (Exception e) {
-                throw new RuntimeException("Error al crear el perfil de doctor: " + e.getMessage(), e);
-            }
-        }
-        return Optional.empty();
+        return userRepository.findById(doctorId)
+                .map(user -> {
+                    DoctorDTO doctorDTO = profileClientRest.createDoctor(createDoctorDTO);
+                    SecurityProfiles securityProfiles = ensureSecurityProfileExists(user);
+                    if (securityProfiles.getLaboratoryId() != null) {
+                        throw new IllegalArgumentException("Este usuario ya tiene un perfil de laboratorio.");
+                    }
+                    securityProfiles.setLaboratoryId(doctorDTO.doctorId());
+                    userRepository.save(user);
+                    return createDoctorDTO;
+                });
     }
 
 

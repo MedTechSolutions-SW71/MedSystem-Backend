@@ -10,8 +10,8 @@ public class CreateDoctorCommandFromResourceAssembler {public static CreateDocto
             resource.specialization(),
             resource.licenceNumber(),
             resource.phone(),
-            resource.email(),
-            resource.idLaboratory()
+            resource.email()
+            //resource.idLaboratory()
     );
 }
 }
