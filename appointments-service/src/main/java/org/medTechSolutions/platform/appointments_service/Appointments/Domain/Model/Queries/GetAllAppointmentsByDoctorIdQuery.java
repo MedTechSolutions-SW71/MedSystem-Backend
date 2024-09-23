@@ -1,4 +1,4 @@
 package org.medTechSolutions.platform.appointments_service.Appointments.Domain.Model.Queries;
 
-public record GetAllAppointmentsByDoctorId() {
+public record GetAllAppointmentsByDoctorIdQuery() {
 }
