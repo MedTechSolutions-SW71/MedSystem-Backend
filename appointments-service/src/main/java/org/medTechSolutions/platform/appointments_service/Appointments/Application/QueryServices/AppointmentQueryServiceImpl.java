@@ -19,7 +19,7 @@ public class AppointmentQueryServiceImpl implements AppointmentQueryService {
     }
 
     @Override
-    public Optional<Appointment> handle(GetAppointmentsByIdQuery query) {
+    public Optional<Appointment> handle(GetAppointmentByIdQuery query) {
         return appointmentRepository.findById(query.id());
     }
 

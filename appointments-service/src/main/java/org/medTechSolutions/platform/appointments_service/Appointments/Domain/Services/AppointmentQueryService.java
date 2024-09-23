@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface AppointmentQueryService {
-    Optional<Appointment> handle(GetAppointmentsByIdQuery query);
+    Optional<Appointment> handle(GetAppointmentByIdQuery query);
     List<Appointment> handle(GetAllAppointmentsByDoctorIdQuery query);
     List<Appointment> handle(GetAllAppointmentsByPatientIdQuery query);
     List<Appointment> handle(GetAppointmentsByDateQuery query);
