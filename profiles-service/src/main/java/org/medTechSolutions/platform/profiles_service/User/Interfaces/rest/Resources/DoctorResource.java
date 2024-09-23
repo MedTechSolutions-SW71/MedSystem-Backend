@@ -3,7 +3,7 @@ package org.medTechSolutions.platform.profiles_service.User.Interfaces.rest.Reso
 public record DoctorResource(
         Long id,
         String firstName,
-        String lastname,
+        String lastName,
         String specialization,
         Integer licenceNumber,
         String phone,
