@@ -11,6 +11,7 @@ MedSystem es una plataforma que permite realizar citas medicas, gestionar pacien
 - Microservices Exams.
 - Microservices Security.
 - Microservices Treatments.
+- Microservices Emails.
 
 ### Technologies
 

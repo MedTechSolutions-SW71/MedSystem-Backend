@@ -24,10 +24,11 @@ public class Doctor extends AuditableAbstractAggregateRoot<Doctor> {
 
     private String email;
 
+    /*
     @ManyToOne
     @JoinColumn(name="id_laboratory")
     private Laboratory idLaboratory;
-
+     */
 
     public Doctor() {
         this.firstName = "default";
@@ -36,10 +37,10 @@ public class Doctor extends AuditableAbstractAggregateRoot<Doctor> {
         this.licenceNumber = null;
         this.phone = "default";
         this.email = "default";
-        this.idLaboratory = null;
+        // this.idLaboratory = null;
     }
 
-    public Doctor(CreateDoctorCommand command, Laboratory idLaboratory) {
+    public Doctor(CreateDoctorCommand command) {
         this();
         this.firstName = command.firstName();
         this.lastName = command.lastName();
@@ -47,17 +48,17 @@ public class Doctor extends AuditableAbstractAggregateRoot<Doctor> {
         this.licenceNumber = command.licenceNumber();
         this.phone = command.phone();
         this.email = command.email();
-        this.idLaboratory = idLaboratory;
+        // this.idLaboratory = idLaboratory;
     }
 
-    public Doctor update(String firstName, String lastName, String specialization, Integer licenceNumber, String phone, String email, Laboratory idLaboratory) {
+    public Doctor update(String firstName, String lastName, String specialization, Integer licenceNumber, String phone, String email) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.specialization = specialization;
         this.licenceNumber = licenceNumber;
         this.phone = phone;
         this.email = email;
-        this.idLaboratory = idLaboratory;
+        //this.idLaboratory = idLaboratory;
         return this;
     }
 

@@ -30,11 +30,11 @@ public class DoctorCommandServiceImpl implements DoctorCommandService {
     @Override
     public Long handle(CreateDoctorCommand command) {
 
-        var laboratoryResult = laboratoryRepository.findById(command.idLaboratory());
-        if (laboratoryResult.isEmpty()) throw new UserNotFoundException(command.idLaboratory());
-        var laboratory = laboratoryResult.get();
+        //var laboratoryResult = laboratoryRepository.findById(command.idLaboratory());
+        //if (laboratoryResult.isEmpty()) throw new UserNotFoundException(command.idLaboratory());
+        //var laboratory = laboratoryResult.get();
 
-        Doctor doctor = new Doctor(command, laboratory);
+        Doctor doctor = new Doctor(command);
         try {
             doctorRepository.save(doctor);
         } catch (Exception e) {
@@ -49,9 +49,9 @@ public class DoctorCommandServiceImpl implements DoctorCommandService {
         if (result.isEmpty()) throw new IllegalArgumentException("Doctor does not exist");
         var doctorToUpdate = result.get();
 
-        var laboratoryResult = laboratoryRepository.findById(command.idLaboratory());
-        if (laboratoryResult.isEmpty()) throw new UserNotFoundException(command.idLaboratory());
-        var laboratory = laboratoryResult.get();
+        //var laboratoryResult = laboratoryRepository.findById(command.idLaboratory());
+        //if (laboratoryResult.isEmpty()) throw new UserNotFoundException(command.idLaboratory());
+        //var laboratory = laboratoryResult.get();
 
         try {
             var updatedDoctor = doctorRepository.save(doctorToUpdate.update(
@@ -60,8 +60,8 @@ public class DoctorCommandServiceImpl implements DoctorCommandService {
                     command.specialization(),
                     command.licenceNumber(),
                     command.phone(),
-                    command.email(),
-                    laboratory
+                    command.email()
+                    //laboratory
             ));
             return Optional.of(updatedDoctor);
         } catch (Exception e) {

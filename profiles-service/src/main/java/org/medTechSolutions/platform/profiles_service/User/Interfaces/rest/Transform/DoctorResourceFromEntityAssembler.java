@@ -12,8 +12,8 @@ public class DoctorResourceFromEntityAssembler {
                 entity.getSpecialization(),
                 entity.getLicenceNumber(),
                 entity.getPhone(),
-                entity.getEmail(),
-                entity.getIdLaboratory().getId()
+                entity.getEmail()
+                //entity.getIdLaboratory().getId()
         );
     }
 }
