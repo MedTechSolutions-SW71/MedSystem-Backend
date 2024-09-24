@@ -29,7 +29,7 @@ public class Treatment extends AuditableModel {
     @Column(nullable = false)
     private boolean isCompleted;
 
-    @OneToMany // Cambiado a relación con ExamResult
+    @OneToMany
     private List<ExamResult> examResults = new ArrayList<>();
 
     @ElementCollection

@@ -15,7 +15,7 @@ public abstract class TreatmentQueryService {
 
     protected final TreatmentRepository treatmentRepository;
 
-    // Si la clase es abstracta, no necesitas este constructor
+
     public TreatmentQueryService(TreatmentRepository treatmentRepository) {
         this.treatmentRepository = treatmentRepository;
     }
@@ -25,11 +25,11 @@ public abstract class TreatmentQueryService {
     }
 
     public Optional<Treatment> handle(GetTreatmentByIdQuery query) {
-        // Si GetTreatmentByIdQuery es un 'record', accede al campo con su nombre.
+
         return treatmentRepository.findById(query.treatmentId());
     }
 
-    // Métodos abstractos que serán implementados por las subclases
+
     public abstract Treatment getTreatmentById(Long treatmentId);
 
     public abstract List<Treatment> getTreatmentsByPatientId(Long patientId);

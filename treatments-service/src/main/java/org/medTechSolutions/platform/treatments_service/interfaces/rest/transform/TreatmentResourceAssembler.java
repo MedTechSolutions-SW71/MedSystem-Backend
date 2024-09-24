@@ -21,11 +21,11 @@ public class TreatmentResourceAssembler {
     public static TreatmentResource toResource(Long treatmentId, CreateTreatmentResource createTreatmentResource) {
         return new TreatmentResource(
                 treatmentId,
-                createTreatmentResource.patientId(), // Usa 'patientId()' sin 'get'
-                createTreatmentResource.doctorId(),  // Usa 'doctorId()' sin 'get'
-                createTreatmentResource.description(), // Usa 'description()' sin 'get'
-                createTreatmentResource.examResultIds(), // Usa 'examResultIds()' sin 'get'
-                false  // Asumimos que un tratamiento nuevo no está completado
+                createTreatmentResource.patientId(),
+                createTreatmentResource.doctorId(),
+                createTreatmentResource.description(),
+                createTreatmentResource.examResultIds(),
+                false
         );
     }
 }
