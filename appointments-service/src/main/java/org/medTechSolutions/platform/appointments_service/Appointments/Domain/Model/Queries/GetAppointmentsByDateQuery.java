@@ -1,6 +1,7 @@
 package org.medTechSolutions.platform.appointments_service.Appointments.Domain.Model.Queries;
 
-import java.util.Date;
+import java.time.LocalDate;
 
-public record GetAppointmentsByDateQuery(String date) {
+
+public record GetAppointmentsByDateQuery(LocalDate date) {
 }
