@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 @Entity
 @AllArgsConstructor
-public class Treatment extends AuditableModel {  // Hereda de AuditableModel
+public class Treatment extends AuditableModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
