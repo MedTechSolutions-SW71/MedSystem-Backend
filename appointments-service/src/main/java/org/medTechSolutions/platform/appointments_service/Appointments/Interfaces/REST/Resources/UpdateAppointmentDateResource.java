@@ -1,4 +1,6 @@
 package org.medTechSolutions.platform.appointments_service.Appointments.Interfaces.REST.Resources;
 
-public record UpdateAppointmentDateResource(String date) {
+import java.time.LocalDate;
+
+public record UpdateAppointmentDateResource(LocalDate date) {
 }
