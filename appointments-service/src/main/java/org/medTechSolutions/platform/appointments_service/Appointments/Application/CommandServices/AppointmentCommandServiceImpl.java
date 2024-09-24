@@ -22,9 +22,7 @@ public class AppointmentCommandServiceImpl implements AppointmentCommandService 
     //Create appointment
     @Override
     public Optional<Appointment> handle(CreateAppointmentCommand command) {
-        if(appointmentRepository.existsByDate(command.date())) {
-            throw new IllegalArgumentException("Appointment already exists for the given date");
-        }
+
         var appointment = new Appointment(command);
         appointmentRepository.save(appointment);
         return Optional.of(appointment);
@@ -45,15 +43,17 @@ public class AppointmentCommandServiceImpl implements AppointmentCommandService 
 
     //Update appointment reason
     public Optional<Appointment> handle(UpdateAppointmentDateCommand command) {
-        var result = appointmentRepository.findById(command.appointmentId());
-        if(result.isEmpty()) throw new IllegalArgumentException("Appointment not found");
-        var appointmentToUpdate = result.get();
-        try {
-            var updatedAppointment = appointmentRepository.save(appointmentToUpdate.updateReason(command.date()));
-            return Optional.of(updatedAppointment);
-        }catch (Exception e) {
-            throw new IllegalArgumentException("Failed to update appointment reason" + e.getMessage());
-        }
+        var appointment = appointmentRepository.findById(command.appointmentId()).orElseThrow(() ->
+                new IllegalArgumentException("Appointment with id " + command.appointmentId() + " not found"));
+
+        var appointmentDate = command.date();
+
+
+        appointment.setDate(appointmentDate); // actualiza
+
+        return Optional.of(appointmentRepository.save(appointment));
+
+
     }
 
     //Delete appointment

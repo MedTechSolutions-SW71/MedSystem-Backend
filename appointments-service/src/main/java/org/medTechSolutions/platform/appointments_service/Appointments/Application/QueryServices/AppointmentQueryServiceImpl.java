@@ -38,6 +38,7 @@ public class AppointmentQueryServiceImpl implements AppointmentQueryService {
         return appointmentRepository.findAllByDate(query.date());
     }
 
+
     @Override
     public List<Appointment> handle(GetAllAppointmentsQuery query) {
         return appointmentRepository.findAll();
