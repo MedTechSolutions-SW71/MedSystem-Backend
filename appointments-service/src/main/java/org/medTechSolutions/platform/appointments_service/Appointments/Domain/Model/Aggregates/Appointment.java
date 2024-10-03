@@ -2,10 +2,13 @@ package org.medTechSolutions.platform.appointments_service.Appointments.Domain.M
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 import org.medTechSolutions.platform.appointments_service.Appointments.Domain.Model.Commands.CreateAppointmentCommand;
+import org.medTechSolutions.platform.appointments_service.Appointments.Domain.Model.Entities.Specialty;
 import org.medTechSolutions.platform.appointments_service.Shared.domain.model.aggregates.AuditableAbstractAggregateRoot;
 
 import java.time.LocalDate;
@@ -27,13 +30,18 @@ public class Appointment extends AuditableAbstractAggregateRoot<Appointment> {
 
     private String reason;
 
+    @ManyToOne
+    @JoinColumn(name = "specialty_id")
+    private Specialty specialty;
+
     public Appointment(){}
 
-    public Appointment(CreateAppointmentCommand command){
-        this.doctorId = command.doctorId();
-        this.patientId = command.patientId();
-        this.date = command.date();
-        this.reason = command.reason();
+    public Appointment(Long doctorId, Long patientId, LocalDate date, String reason, Specialty specialty) {
+        this.doctorId = doctorId;
+        this.patientId = patientId;
+        this.date = date;
+        this.reason = reason;
+        this.specialty = specialty;
     }
 
     public Appointment updateReason(String reason) {

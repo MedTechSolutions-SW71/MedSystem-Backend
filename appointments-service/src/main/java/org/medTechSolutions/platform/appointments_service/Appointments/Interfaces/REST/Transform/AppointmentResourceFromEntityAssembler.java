@@ -10,7 +10,8 @@ public class AppointmentResourceFromEntityAssembler {
                 appointment.getDoctorId(),
                 appointment.getPatientId(),
                 appointment.getDate().toString(),
-                appointment.getReason()
+                appointment.getReason(),
+                appointment.getSpecialty().getName()
         );
     }
 }

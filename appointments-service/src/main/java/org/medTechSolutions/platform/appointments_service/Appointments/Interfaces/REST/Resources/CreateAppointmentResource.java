@@ -16,5 +16,8 @@ public record CreateAppointmentResource(
         LocalDate date,
 
         @NotBlank(message = "Reason is required")
-        String reason
+        String reason,
+
+        @NotBlank(message = "Speciality is required")
+        String speciality
 ) { }
