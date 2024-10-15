@@ -6,6 +6,7 @@ import org.medTechSolutions.platform.profiles_service.User.Domain.Model.Aggregat
 import org.medTechSolutions.platform.profiles_service.User.Domain.Model.Commands.CreateDoctorCommand;
 import org.medTechSolutions.platform.profiles_service.User.Domain.Model.Commands.DeleteDoctorCommand;
 import org.medTechSolutions.platform.profiles_service.User.Domain.Model.Commands.UpdateDoctorCommand;
+import org.medTechSolutions.platform.profiles_service.User.Domain.Model.ValueObjects.Specialities;
 import org.medTechSolutions.platform.profiles_service.User.Infrastructure.persistence.jpa.repositories.DoctorRepository;
 import org.medTechSolutions.platform.profiles_service.User.Infrastructure.persistence.jpa.repositories.LaboratoryRepository;
 import org.mockito.*;
@@ -65,8 +66,8 @@ public class DoctorCommandServiceImplTest {
         CreateDoctorCommand command = new CreateDoctorCommand(
                 "Juan",
                 "John",
-                "Cardiology",
-                1123123,
+                1234566,
+                Specialities.CARDIOLOGY,
                 "12345",
                 "juan@email.com"
         );
@@ -88,8 +89,8 @@ public class DoctorCommandServiceImplTest {
                 1L,
                 "John",
                 "Doe",
-                "Cardiology",
-                12345,
+                123243,
+                Specialities.NEUROLOGY,
                 "123-456-7890",
                 "john.doe@example.com"
         );
@@ -109,14 +110,34 @@ public class DoctorCommandServiceImplTest {
     }
 
     @Test
+    void testCreateDoctorFailure_DuplicateLicenceNumber() {
+        // Setup
+        CreateDoctorCommand command = new CreateDoctorCommand(
+                "Juan",
+                "John",
+                1234566,
+                Specialities.CARDIOLOGY,
+                "12345",
+                "juan@email.com"
+        );
+
+        when(doctorRepository.existsDoctorByLicenceNumber(command.licenceNumber())).thenReturn(true);
+
+        // Execute & Verify
+        Exception exception = assertThrows(IllegalArgumentException.class,
+                () -> doctorCommandService.handle(command));
+        assertEquals("Doctor with licence number 12345 already exists", exception.getMessage());
+    }
+
+    @Test
     void testUpdateDoctorFailure_DoctorNotFound() {
         // Setup
         UpdateDoctorCommand command = new UpdateDoctorCommand(
                 1L,
                 "John",
                 "Doe",
-                "Cardiology",
-                12345,
+                1232435,
+                Specialities.NEUROLOGY,
                 "123-456-7890",
                 "john.doe@example.com"
         );

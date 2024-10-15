@@ -81,6 +81,7 @@ public class SecurityProfileServiceImpl implements SecurityProfilesService {
                 });
     }
 
+
     @Override
     @Transactional
     public void deleteDoctorProfile(Long doctorId) {
