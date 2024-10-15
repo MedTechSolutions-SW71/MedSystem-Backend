@@ -91,8 +91,7 @@ public class DoctorCommandServiceImplTest {
                 "Doe",
                 123243,
                 Specialities.NEUROLOGY,
-                "123-456-7890",
-                "john.doe@example.com"
+                "123-456-7890"
         );
         Doctor existingDoctor = new Doctor();
         when(doctorRepository.findById(1L))
@@ -138,8 +137,7 @@ public class DoctorCommandServiceImplTest {
                 "Doe",
                 1232435,
                 Specialities.NEUROLOGY,
-                "123-456-7890",
-                "john.doe@example.com"
+                "123-456-7890"
         );
         when(doctorRepository.findById(1L)).thenReturn(Optional.empty());
 
