@@ -2,17 +2,16 @@ package org.medTechSolutions.platform.security_service.auth.interfaces.rest;
 
 
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.medTechSolutions.platform.security_service.auth.domain.model.aggregates.User;
 import org.medTechSolutions.platform.security_service.auth.domain.model.queries.GetAllUsersQuery;
 import org.medTechSolutions.platform.security_service.auth.domain.model.queries.GetUserByIdQuery;
 import org.medTechSolutions.platform.security_service.auth.domain.services.UserQueryService;
+import org.medTechSolutions.platform.security_service.auth.infrastructure.persistence.jpa.repositories.UserRepository;
 import org.medTechSolutions.platform.security_service.auth.interfaces.rest.resources.UserResource;
 import org.medTechSolutions.platform.security_service.auth.interfaces.rest.transform.UserResourceFromEntityAssembler;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -24,9 +23,11 @@ import java.util.List;
 public class UsersController {
 
     private final UserQueryService userQueryService;
+    private final UserRepository userRepository;
 
-    public UsersController(UserQueryService userQueryService) {
+    public UsersController(UserQueryService userQueryService, UserRepository userRepository) {
         this.userQueryService = userQueryService;
+        this.userRepository = userRepository;
     }
 
     @GetMapping
@@ -50,7 +51,6 @@ public class UsersController {
         return ResponseEntity.ok(userResource);
         
     }
-    
     
 
 }

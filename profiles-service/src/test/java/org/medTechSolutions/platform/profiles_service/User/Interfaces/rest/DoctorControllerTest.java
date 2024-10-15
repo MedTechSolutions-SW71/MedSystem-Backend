@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.medTechSolutions.platform.profiles_service.User.Domain.Model.ValueObjects.Specialities;
 import org.medTechSolutions.platform.profiles_service.User.Interfaces.rest.Resources.CreateDoctorResource;
 import org.medTechSolutions.platform.profiles_service.User.Interfaces.rest.Resources.UpdateDoctorResource;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,8 +35,8 @@ class DoctorControllerTest {
         CreateDoctorResource createDoctorResource = new CreateDoctorResource(
                 "John",
                 "Doe",
-                "Cardiology",
-                12345,
+                1325434,
+                Specialities.NEUROLOGY,
                 "987654321",
                 "john@example.com");
 
@@ -55,8 +56,8 @@ class DoctorControllerTest {
         CreateDoctorResource createDoctorResource = new CreateDoctorResource(
                 "Alison",
                 "Doe",
-                "Cardiology",
-                12345,
+                1213432,
+                Specialities.CARDIOLOGY,
                 "987654321",
                 "alison@example.com");
 
@@ -90,8 +91,8 @@ class DoctorControllerTest {
         UpdateDoctorResource updateDoctorResource = new UpdateDoctorResource(
                 "Emily",
                 "Doe",
-                "Neurology",
-                54321,
+                132,
+                Specialities.NEUROLOGY,
                 "123456789",
                 "emily@example.com");
 

@@ -7,8 +7,8 @@ public class CreateDoctorCommandFromResourceAssembler {public static CreateDocto
     return new CreateDoctorCommand(
             resource.firstName(),
             resource.lastName(),
-            resource.specialization(),
             resource.licenceNumber(),
+            resource.specialities(),
             resource.phone(),
             resource.email()
             //resource.idLaboratory()

@@ -9,8 +9,8 @@ public class DoctorResourceFromEntityAssembler {
                 entity.getId(),
                 entity.getFirstName(),
                 entity.getLastName(),
-                entity.getSpecialization(),
                 entity.getLicenceNumber(),
+                entity.getSpecialities(),
                 entity.getPhone(),
                 entity.getEmail()
                 //entity.getIdLaboratory().getId()

@@ -1,8 +1,7 @@
 package org.medTechSolutions.platform.profiles_service.User.Application.internal.commandServices;
 
-import org.medTechSolutions.platform.profiles_service.User.Domain.Exceptions.UserNotFoundException;
+
 import org.medTechSolutions.platform.profiles_service.User.Domain.Model.Aggregates.Doctor;
-import org.medTechSolutions.platform.profiles_service.User.Domain.Model.Aggregates.Laboratory;
 import org.medTechSolutions.platform.profiles_service.User.Domain.Model.Commands.CreateDoctorCommand;
 import org.medTechSolutions.platform.profiles_service.User.Domain.Model.Commands.DeleteDoctorCommand;
 import org.medTechSolutions.platform.profiles_service.User.Domain.Model.Commands.UpdateDoctorCommand;
@@ -34,7 +33,14 @@ public class DoctorCommandServiceImpl implements DoctorCommandService {
         //if (laboratoryResult.isEmpty()) throw new UserNotFoundException(command.idLaboratory());
         //var laboratory = laboratoryResult.get();
 
+        var licenceNumber = command.licenceNumber();
+
         Doctor doctor = new Doctor(command);
+
+        if (doctorRepository.existsDoctorByLicenceNumber(licenceNumber)) {
+            throw new IllegalArgumentException("Doctor with licence number " + licenceNumber + " already exists");
+        }
+
         try {
             doctorRepository.save(doctor);
         } catch (Exception e) {
@@ -57,12 +63,13 @@ public class DoctorCommandServiceImpl implements DoctorCommandService {
             var updatedDoctor = doctorRepository.save(doctorToUpdate.update(
                     command.firstName(),
                     command.lastName(),
-                    command.specialization(),
                     command.licenceNumber(),
-                    command.phone(),
-                    command.email()
+                    command.specialities(),
+                    command.phone()
                     //laboratory
             ));
+
+
             return Optional.of(updatedDoctor);
         } catch (Exception e) {
             throw new IllegalArgumentException("Error while updating doctor: " + e.getMessage());

@@ -61,7 +61,7 @@ public class UserCommandServiceImpl implements UserCommandService {
         for (Role role : roles) {
             switch (role.getName()) {
                 case Doctor:
-                    var createDoctorDTO = new CreateDoctorDTO("defaultFirstName", "defaultLastName", "defaultSpecialization", 12345, "defaultPhone", user.getEmail());
+                    var createDoctorDTO = new CreateDoctorDTO("defaultFirstName", "defaultLastName", "defaultSpecialization", null , "defaultPhone", user.getEmail());
                     securityProfilesService.createDoctorProfile(createDoctorDTO, user.getId());
                     break;
                 case Laboratory:

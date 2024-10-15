@@ -2,10 +2,7 @@ package org.medTechSolutions.platform.security_service.auth.infrastructure.clien
 
 import org.medTechSolutions.platform.security_service.auth.interfaces.rest.clientDTOS.*;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 
 @FeignClient(name = "profiles-service", url = "${profiles-service.url}")
 public interface ProfileClientRest {
@@ -33,4 +30,5 @@ public interface ProfileClientRest {
     // para eliminar un perfil con rol Patient
     @DeleteMapping("patients/{patientId}")
     public void deletePatient(@PathVariable Long patientId);
+
 }
