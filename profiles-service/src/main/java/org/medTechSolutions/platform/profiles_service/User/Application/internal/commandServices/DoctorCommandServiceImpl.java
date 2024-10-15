@@ -65,8 +65,7 @@ public class DoctorCommandServiceImpl implements DoctorCommandService {
                     command.lastName(),
                     command.licenceNumber(),
                     command.specialities(),
-                    command.phone(),
-                    command.email()
+                    command.phone()
                     //laboratory
             ));
 

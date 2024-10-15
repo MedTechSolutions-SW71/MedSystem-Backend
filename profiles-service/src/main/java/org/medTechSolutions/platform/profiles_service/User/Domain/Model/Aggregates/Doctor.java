@@ -56,13 +56,12 @@ public class Doctor extends AuditableAbstractAggregateRoot<Doctor> {
         // this.idLaboratory = idLaboratory;
     }
 
-    public Doctor update(String firstName, String lastName, Integer licenceNumber, Specialities specialities, String phone, String email) {
+    public Doctor update(String firstName, String lastName, Integer licenceNumber, Specialities specialities, String phone) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.licenceNumber = licenceNumber;
         this.specialities = specialities;
         this.phone = phone;
-        this.email = email;
         //this.idLaboratory = idLaboratory;
         return this;
     }

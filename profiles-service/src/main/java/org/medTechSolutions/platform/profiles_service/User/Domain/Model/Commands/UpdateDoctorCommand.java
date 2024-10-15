@@ -8,8 +8,7 @@ public record UpdateDoctorCommand(
         String lastName,
         Integer licenceNumber,
         Specialities specialities,
-        String phone,
-        String email
+        String phone
         //Long idLaboratory
 ) {
 }
