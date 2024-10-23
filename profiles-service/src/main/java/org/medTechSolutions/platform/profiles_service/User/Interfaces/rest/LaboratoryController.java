@@ -21,6 +21,7 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "/api/v1/laboratories", produces = "application/json")
 @Tag(name = "Laboratories", description = "Laboratory Management Endpoints")
+@CrossOrigin(origins = "*")
 public class LaboratoryController {
 
     private final LaboratoryCommandService laboratoryCommandService;

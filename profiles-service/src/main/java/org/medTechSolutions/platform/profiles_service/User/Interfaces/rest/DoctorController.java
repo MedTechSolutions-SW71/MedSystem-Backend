@@ -22,6 +22,7 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "/api/v1/doctors", produces = "application/json")
 @Tag(name = "Doctors", description = "Doctor Management Endpoints")
+@CrossOrigin(origins = "*")
 public class DoctorController {
 
     private final DoctorCommandService doctorCommandService;
