@@ -7,8 +7,7 @@ public record UpdateDoctorResource(
         String lastName,
         Integer licenceNumber,
         Specialities specialities,
-        String phone,
-        String email
+        String phone
         //Long idLaboratory
 ) {
 }

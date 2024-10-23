@@ -14,7 +14,9 @@ public class SignUpCommandFromResourceAssembler {
 
         var erole = new Role(Roles.valueOf(resource.role()));
 
-        return new SignUpCommand(resource.email(), resource.password(), erole);
+        return new SignUpCommand(
+                resource.email(),
+                resource.password(), erole);
     }
 
 }

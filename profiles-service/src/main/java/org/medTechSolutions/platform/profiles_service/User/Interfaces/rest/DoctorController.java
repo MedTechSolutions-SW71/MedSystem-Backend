@@ -1,7 +1,9 @@
 package org.medTechSolutions.platform.profiles_service.User.Interfaces.rest;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.medTechSolutions.platform.profiles_service.User.Domain.Model.Commands.CreateDoctorCommand;
 import org.medTechSolutions.platform.profiles_service.User.Domain.Model.Commands.DeleteDoctorCommand;
+import org.medTechSolutions.platform.profiles_service.User.Domain.Model.Commands.UpdateDoctorCommand;
 import org.medTechSolutions.platform.profiles_service.User.Domain.Model.Queries.GetAllDoctorQuery;
 import org.medTechSolutions.platform.profiles_service.User.Domain.Model.Queries.GetDoctorByIdQuery;
 import org.medTechSolutions.platform.profiles_service.User.Domain.Services.DoctorCommandService;
@@ -13,6 +15,7 @@ import org.medTechSolutions.platform.profiles_service.User.Interfaces.rest.Resou
 import org.medTechSolutions.platform.profiles_service.User.Interfaces.rest.Transform.CreateDoctorCommandFromResourceAssembler;
 import org.medTechSolutions.platform.profiles_service.User.Interfaces.rest.Transform.DoctorResourceFromEntityAssembler;
 import org.medTechSolutions.platform.profiles_service.User.Interfaces.rest.Transform.UpdateDoctorCommandFromResourceAssembler;
+import org.medTechSolutions.platform.profiles_service.User.Interfaces.rest.clientsDTO.UserResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -36,22 +39,30 @@ public class DoctorController {
     }
 
     @PostMapping
-    public ResponseEntity<DoctorResource> createDoctor(@RequestBody CreateDoctorResource createDoctorResource) {
-        var createDoctorCommand = CreateDoctorCommandFromResourceAssembler.toCommandFromResource(createDoctorResource);
-        var doctorId = doctorCommandService.handle(createDoctorCommand);
+    public ResponseEntity<UserResource> createDoctor(@RequestBody UserResource userResource) {
+        // Crear el comando con los datos básicos
+        CreateDoctorCommand createDoctorCommand = new CreateDoctorCommand(
+                userResource.id(),
+                userResource.email(),
+                userResource.role()
+        );
+
+        // Llamar al servicio de comandos para manejar la creación del perfil
+        Long doctorId = doctorCommandService.handle(createDoctorCommand);
         if (doctorId == null) {
             return ResponseEntity.badRequest().build();
         }
-        var getDoctorByIdQuery = new GetDoctorByIdQuery(doctorId);
-        var doctor = doctorQueryService.handle(getDoctorByIdQuery);
-        if (doctor.isEmpty()) return ResponseEntity.badRequest().build();
-        var doctorResource = DoctorResourceFromEntityAssembler.toResourceFromEntity(doctor.get());
 
-        String body = "Hola!!, Bienvenido a MedSystem, te registraste con este correo " + " " + doctor.get().getEmail() + ", te has registrado como doctor";
-        emailClient.sendEmail(doctor.get().getEmail(), "Bienvenido a MedSystem", body);
+        // No es necesario hacer otra llamada a obtener el doctor
+        // Aquí solo se envía el correo de bienvenida
+        String body = "Hola!!, Bienvenido a MedSystem, te registraste con este correo " + userResource.email() + ", te has registrado como doctor";
+        emailClient.sendEmail(userResource.email(), "Bienvenido a MedSystem", body);
 
-        return new ResponseEntity<>(doctorResource, HttpStatus.CREATED);
+        // Retornar el UserResource ya que el perfil básico se ha creado
+        return ResponseEntity.status(HttpStatus.CREATED).body(userResource);
     }
+
+
 
     @GetMapping("/{doctorId}")
     public ResponseEntity<DoctorResource> getDoctorById(@PathVariable Long doctorId) {
@@ -72,11 +83,23 @@ public class DoctorController {
 
     @PutMapping("/{doctorId}")
     public ResponseEntity<DoctorResource> updateDoctor(@PathVariable Long doctorId, @RequestBody UpdateDoctorResource updateDoctorResource) {
-        var updateDoctorCommand = UpdateDoctorCommandFromResourceAssembler.toCommandFromResource(updateDoctorResource, doctorId);
+        // Crear el comando para actualizar el perfil con los nuevos datos
+        var updateDoctorCommand = new UpdateDoctorCommand(
+                doctorId,
+                updateDoctorResource.firstName(),
+                updateDoctorResource.lastName(),
+                updateDoctorResource.licenceNumber(),
+                updateDoctorResource.specialities(),
+                updateDoctorResource.phone()
+        );
+
+        // Ejecutar el comando para actualizar el perfil de Doctor
         var updatedDoctor = doctorCommandService.handle(updateDoctorCommand);
         if (updatedDoctor.isEmpty()) {
             return ResponseEntity.badRequest().build();
         }
+
+        // Convertir la entidad actualizada a un recurso y retornarla
         var doctorResource = DoctorResourceFromEntityAssembler.toResourceFromEntity(updatedDoctor.get());
         return ResponseEntity.ok(doctorResource);
     }

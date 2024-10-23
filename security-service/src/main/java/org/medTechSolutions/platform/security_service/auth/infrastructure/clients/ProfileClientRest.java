@@ -1,6 +1,7 @@
 package org.medTechSolutions.platform.security_service.auth.infrastructure.clients;
 
 import org.medTechSolutions.platform.security_service.auth.interfaces.rest.clientDTOS.*;
+import org.medTechSolutions.platform.security_service.auth.interfaces.rest.resources.UserResource;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
@@ -9,26 +10,11 @@ public interface ProfileClientRest {
 
     // para crear un perfil con rol Doctor
     @PostMapping("/doctors")
-    public DoctorDTO createDoctor(@RequestBody CreateDoctorDTO createDoctorDTO);
-
-    // para crear un perfil con rol Laboratorio
-    @PostMapping("/laboratories")
-    public LaboratoryDTO createLaboratory(@RequestBody CreateLaboratoryDTO createLaboratoryDTO);
+    public UserResource createDoctor(@RequestBody UserResource userResource);
 
     // para crear un perfil con rol Patient
     @PostMapping("/patients")
-    public PatientDTO createPatient(@RequestBody CreatePatientDTO createPatientDTO);
+    public UserResource createPatient(@RequestBody UserResource userResource);
 
-    // para eliminar un perfil con rol Doctor
-    @DeleteMapping("doctors/{doctorId}")
-    public void deleteDoctor(@PathVariable Long doctorId);
-
-    // para eliminar un perfil con rol Laboratorio
-    @DeleteMapping("laboratories/{laboratoryId}")
-    public void deleteLaboratory(@PathVariable Long laboratoryId);
-
-    // para eliminar un perfil con rol Patient
-    @DeleteMapping("patients/{patientId}")
-    public void deletePatient(@PathVariable Long patientId);
 
 }
