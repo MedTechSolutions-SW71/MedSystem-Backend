@@ -42,6 +42,6 @@ public class EmailSender {
         context.setVariable("subject", email.getSubject());
         context.setVariable("body", email.getBody());
 
-        return templateEngine.process("email-template", context);
+        return templateEngine.process("email-welcome-template", context);
     }
 }

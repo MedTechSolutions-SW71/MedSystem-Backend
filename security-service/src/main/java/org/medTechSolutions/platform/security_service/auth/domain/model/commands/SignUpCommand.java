@@ -6,6 +6,6 @@ import org.medTechSolutions.platform.security_service.auth.domain.model.entities
 
 import java.util.List;
 
-public record SignUpCommand(String email, String password, List<Role> roles) {
+public record SignUpCommand(String email, String password, Role role) {
 
 }

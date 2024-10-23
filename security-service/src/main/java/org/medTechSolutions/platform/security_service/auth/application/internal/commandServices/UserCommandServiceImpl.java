@@ -42,24 +42,19 @@ public class UserCommandServiceImpl implements UserCommandService {
             throw new RuntimeException("Username already exists");
         }
 
-        var roles = command.roles();
-        if (roles.isEmpty()) {
-            var role = roleRepository.findByName(Roles.Patient);
-            if (role.isPresent()) roles.add(role.get());
-        } else {
-            roles = roles.stream().map(role -> roleRepository.findByName(role.getName())
-                    .orElseThrow(() -> new RuntimeException("Role not found"))).toList();
+       if (!roleRepository.existsByName(command.role().getName())) {
+            throw new RuntimeException("Role not found");
         }
 
-        var user = new User(command.email(), hashingService.encode(command.password()), roles);
+        var user = new User(command.email(), hashingService.encode(command.password()), roleRepository.findByName(command.role().getName()).get());
         userRepository.save(user);
 
         if (user.getId() == null) {
             throw new RuntimeException("User ID must not be null after saving");
         }
 
-        for (Role role : roles) {
-            switch (role.getName()) {
+
+            switch (command.role().getName()) {
                 case Doctor:
                     var createDoctorDTO = new CreateDoctorDTO("defaultFirstName", "defaultLastName", "defaultSpecialization", null , "defaultPhone", user.getEmail());
                     securityProfilesService.createDoctorProfile(createDoctorDTO, user.getId());
@@ -74,7 +69,7 @@ public class UserCommandServiceImpl implements UserCommandService {
                     break;
 
             }
-        }
+
 
         return userRepository.findByEmail(command.email());
     }

@@ -96,7 +96,7 @@ public class UserCommandServiceImplTest {
         when(userRepository.existsByEmail("user@example.com")).thenReturn(true);
 
         // Execute
-        SignUpCommand command = new SignUpCommand("user@example.com", "password", new ArrayList<>());
+        SignUpCommand command = new SignUpCommand("user@example.com", "password", new Role());
 
         // Verify
         Exception exception = assertThrows(RuntimeException.class, () -> userCommandService.handle(command));

@@ -3,7 +3,8 @@ package org.medTechSolutions.platform.security_service.auth.interfaces.rest.reso
 public record AuthenticatedUserResource(
     Long id,
     String username,
-    String token
+    String token,
+    String role
 ) {
 
 }
