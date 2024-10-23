@@ -3,8 +3,8 @@ package org.medTechSolutions.platform.security_service.auth.interfaces.rest.clie
 public record CreateDoctorDTO(
         String firstName,
         String lastName,
-        String specialization,
         Integer licenceNumber,
+        String speciality,
         String phone,
         String email
 ) {

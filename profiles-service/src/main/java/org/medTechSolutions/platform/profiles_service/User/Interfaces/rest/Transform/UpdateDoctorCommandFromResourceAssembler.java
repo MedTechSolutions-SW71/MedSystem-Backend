@@ -12,7 +12,6 @@ public class UpdateDoctorCommandFromResourceAssembler {
                 resource.licenceNumber(),
                 resource.specialities(),
                 resource.phone()
-                //resource.idLaboratory()
         );
     }
 }

@@ -3,14 +3,11 @@ package org.medTechSolutions.platform.profiles_service.User.Interfaces.rest.Tran
 import org.medTechSolutions.platform.profiles_service.User.Domain.Model.Commands.CreatePatientCommand;
 import org.medTechSolutions.platform.profiles_service.User.Interfaces.rest.Resources.CreatePatientResource;
 
-public class CreatePatientCommandFromResourceAssembler {  public static CreatePatientCommand toCommandFromResource(CreatePatientResource resource) {
+public class CreatePatientCommandFromResourceAssembler {  public static CreatePatientCommand toCommandFromResource(CreatePatientResource resource, Long id) {
     return new CreatePatientCommand(
-            resource.firstName(),
-            resource.lastName(),
-            resource.age(),
-            resource.address(),
-            resource.phone(),
-            resource.email()
+            id,
+            resource.email(),
+            resource.role()
     );
 }
 }

@@ -30,7 +30,7 @@ public class PatientCommandServiceImpl implements PatientCommandService {
         } catch (Exception e) {
             throw new IllegalArgumentException("Error while saving patient: " + e.getMessage());
         }
-        return patient.getId();
+        return patient.getUserId();
     }
 
     @Override

@@ -1,9 +1,11 @@
 package org.medTechSolutions.platform.profiles_service.User.Interfaces.rest;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.medTechSolutions.platform.profiles_service.User.Domain.Model.Commands.CreatePatientCommand;
 import org.medTechSolutions.platform.profiles_service.User.Domain.Model.Commands.DeletePatientCommand;
 import org.medTechSolutions.platform.profiles_service.User.Domain.Model.Queries.GetAllPatientQuery;
 import org.medTechSolutions.platform.profiles_service.User.Domain.Model.Queries.GetPatientByIdQuery;
+import org.medTechSolutions.platform.profiles_service.User.Domain.Services.EmailClient;
 import org.medTechSolutions.platform.profiles_service.User.Domain.Services.PatientCommandService;
 import org.medTechSolutions.platform.profiles_service.User.Domain.Services.PatientQueryService;
 import org.medTechSolutions.platform.profiles_service.User.Interfaces.rest.Resources.CreatePatientResource;
@@ -12,6 +14,7 @@ import org.medTechSolutions.platform.profiles_service.User.Interfaces.rest.Resou
 import org.medTechSolutions.platform.profiles_service.User.Interfaces.rest.Transform.CreatePatientCommandFromResourceAssembler;
 import org.medTechSolutions.platform.profiles_service.User.Interfaces.rest.Transform.PatientResourceFromEntityAssembler;
 import org.medTechSolutions.platform.profiles_service.User.Interfaces.rest.Transform.UpdatePatientCommandFromResourceAssembler;
+import org.medTechSolutions.platform.profiles_service.User.Interfaces.rest.clientsDTO.UserResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,28 +24,38 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "/api/v1/patients", produces = "application/json")
 @Tag(name = "Patient", description = "Patient Management Endpoints")
+@CrossOrigin(origins = "*")
 public class PatientController {
 
     private final PatientCommandService patientCommandService;
     private final PatientQueryService patientQueryService;
+    private final EmailClient emailClient;
 
-    public PatientController(PatientCommandService patientCommandService, PatientQueryService patientQueryService) {
+    public PatientController(PatientCommandService patientCommandService, PatientQueryService patientQueryService, EmailClient emailClient) {
         this.patientCommandService = patientCommandService;
         this.patientQueryService = patientQueryService;
+        this.emailClient = emailClient;
     }
 
     @PostMapping
-    public ResponseEntity<PatientResource> createPatient(@RequestBody CreatePatientResource createPatientResource) {
-        var createPatientCommand = CreatePatientCommandFromResourceAssembler.toCommandFromResource(createPatientResource);
-        var patientId = patientCommandService.handle(createPatientCommand);
+    public ResponseEntity<UserResource> createPatient(@RequestBody UserResource userResource) {
+        CreatePatientCommand createPatientCommand = new CreatePatientCommand(
+                userResource.id(),
+                userResource.email(),
+                userResource.role()
+        );
+
+        Long patientId = patientCommandService.handle(createPatientCommand);
         if (patientId == null) {
             return ResponseEntity.badRequest().build();
         }
-        var getPatientByIdQuery = new GetPatientByIdQuery(patientId);
-        var patient = patientQueryService.handle(getPatientByIdQuery);
-        if (patient.isEmpty()) return ResponseEntity.badRequest().build();
-        var patientResource = PatientResourceFromEntityAssembler.toResourceFromEntity(patient.get());
-        return new ResponseEntity<>(patientResource, HttpStatus.CREATED);
+
+        // Aquí solo se envía el correo de bienvenida
+        String body = "Hola!!, Bienvenido a MedSystem, te registraste como " + userResource.email() + ", te has registrado como Paciente";
+        emailClient.sendEmail(userResource.email(), "Bienvenido a MedSystem", body);
+
+        // Retornar el UserResource ya que el perfil básico se ha creado
+        return ResponseEntity.status(HttpStatus.CREATED).body(userResource);
     }
 
     @GetMapping("/{patientId}")

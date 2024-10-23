@@ -8,14 +8,11 @@ import lombok.Setter;
 import org.medTechSolutions.platform.security_service.auth.domain.model.entities.Role;
 import org.medTechSolutions.platform.security_service.auth.domain.model.entities.SecurityProfiles;
 import org.medTechSolutions.platform.security_service.auth.interfaces.rest.clientDTOS.DoctorDTO;
-import org.medTechSolutions.platform.security_service.auth.interfaces.rest.clientDTOS.LaboratoryDTO;
 import org.medTechSolutions.platform.security_service.auth.interfaces.rest.clientDTOS.PatientDTO;
 import org.medTechSolutions.platform.security_service.shared.domain.model.aggregates.AuditableAbstractAggregateRoot;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Getter
@@ -31,11 +28,9 @@ public class User extends AuditableAbstractAggregateRoot<User> {
     @Size(max = 100)
     private String password;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "users_roles",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Set<Role> roles = new HashSet<>();
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "role_id")
+    private Role role ;
 
     // Relación bidireccional con SecurityProfiles
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -43,9 +38,6 @@ public class User extends AuditableAbstractAggregateRoot<User> {
 
     @Transient
     private List<DoctorDTO> doctorDTO = new ArrayList<>();
-
-    @Transient
-    private List<LaboratoryDTO> laboratoryDTO = new ArrayList<>();
 
     @Transient
     private List<PatientDTO> patientDTO = new ArrayList<>();
@@ -59,18 +51,11 @@ public class User extends AuditableAbstractAggregateRoot<User> {
         this.password = password;
     }
 
-    public User(String email, String password, List<Role> roles) {
+    public User(String email, String password, Role role) {
         this(email, password);
-        this.roles.addAll(Role.validateRoleSet(roles));
+        this.role = role;
     }
 
-    public void addRole(Role role) {
-        this.roles.add(role);
-    }
-
-    public void addRoles(List<Role> roles) {
-        this.roles.addAll(Role.validateRoleSet(roles));
-    }
 
     // Método para asociar un perfil de seguridad
     public void setSecurityProfiles(SecurityProfiles securityProfiles) {
@@ -85,10 +70,6 @@ public class User extends AuditableAbstractAggregateRoot<User> {
         this.doctorDTO.add(doctorDTO);
     }
 
-    public void addLaboratory(LaboratoryDTO laboratoryDTO) {
-        this.laboratoryDTO.add(laboratoryDTO);
-    }
-
     public void addPatient(PatientDTO patientDTO) {
         this.patientDTO.add(patientDTO);
     }
@@ -97,15 +78,9 @@ public class User extends AuditableAbstractAggregateRoot<User> {
         this.doctorDTO.remove(doctorDTO);
     }
 
-    public void removeLaboratory(LaboratoryDTO laboratoryDTO) {
-        this.laboratoryDTO.remove(laboratoryDTO);
-    }
 
     public void removePatient(PatientDTO patientDTO) {
         this.patientDTO.remove(patientDTO);
     }
 
-    public List<Role> getRolesAsList() {
-        return new ArrayList<>(roles);
-    }
 }

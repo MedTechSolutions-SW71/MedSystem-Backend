@@ -9,7 +9,11 @@ import org.medTechSolutions.platform.profiles_service.shared.domain.model.aggreg
 
 @Getter
 @Entity
+@Setter
 public class Doctor extends AuditableAbstractAggregateRoot<Doctor> {
+
+    @Id
+    private Long userId;
 
     @Column(name = "first_name")
     private String firstName;
@@ -29,31 +33,16 @@ public class Doctor extends AuditableAbstractAggregateRoot<Doctor> {
     @Setter
     private String email;
 
-    /*
-    @ManyToOne
-    @JoinColumn(name="id_laboratory")
-    private Laboratory idLaboratory;
-     */
 
     public Doctor() {
-        this.firstName = "default";
-        this.lastName = "default";
-        this.licenceNumber = null;
-        this.specialities = Specialities.CARDIOLOGY;
-        this.phone = "default";
-        this.email = "default";
-        // this.idLaboratory = null;
+
     }
 
     public Doctor(CreateDoctorCommand command) {
         this();
-        this.firstName = command.firstName();
-        this.lastName = command.lastName();
-        this.licenceNumber = command.licenceNumber();
-        this.specialities = command.specialities();
-        this.phone = command.phone();
+        this.userId = command.id();
         this.email = command.email();
-        // this.idLaboratory = idLaboratory;
+
     }
 
     public Doctor update(String firstName, String lastName, Integer licenceNumber, Specialities specialities, String phone) {
@@ -62,7 +51,6 @@ public class Doctor extends AuditableAbstractAggregateRoot<Doctor> {
         this.licenceNumber = licenceNumber;
         this.specialities = specialities;
         this.phone = phone;
-        //this.idLaboratory = idLaboratory;
         return this;
     }
 

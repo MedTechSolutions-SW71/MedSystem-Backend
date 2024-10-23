@@ -5,7 +5,7 @@ import java.util.List;
 public record SignUpResource(
     String email,
     String password,
-    List<String> roles
+    String role
 ) {
 
 }

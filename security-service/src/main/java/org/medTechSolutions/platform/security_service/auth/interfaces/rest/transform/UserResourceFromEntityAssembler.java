@@ -6,12 +6,11 @@ import org.medTechSolutions.platform.security_service.auth.interfaces.rest.resou
 
 public class UserResourceFromEntityAssembler {
     public static UserResource toUserResourceFromEntity(User entity) {
-        var roles = entity.getRoles().stream().map(role -> role.getStringName()).toList();
 
         return new UserResource(
             entity.getId(),
             entity.getEmail(),
-            roles
+            entity.getRole().getStringName()
         );
     }
 

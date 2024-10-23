@@ -6,7 +6,7 @@ import org.medTechSolutions.platform.profiles_service.User.Interfaces.rest.Resou
 public class PatientResourceFromEntityAssembler {
     public static PatientResource toResourceFromEntity(Patient entity) {
         return new PatientResource(
-                entity.getId(),
+                entity.getUserId(),
                 entity.getFirstName(),
                 entity.getLastName(),
                 entity.getAge(),
