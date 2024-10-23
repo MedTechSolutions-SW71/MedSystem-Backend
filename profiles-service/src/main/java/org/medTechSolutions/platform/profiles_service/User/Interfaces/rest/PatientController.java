@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.medTechSolutions.platform.profiles_service.User.Domain.Model.Commands.DeletePatientCommand;
 import org.medTechSolutions.platform.profiles_service.User.Domain.Model.Queries.GetAllPatientQuery;
 import org.medTechSolutions.platform.profiles_service.User.Domain.Model.Queries.GetPatientByIdQuery;
+import org.medTechSolutions.platform.profiles_service.User.Domain.Services.EmailClient;
 import org.medTechSolutions.platform.profiles_service.User.Domain.Services.PatientCommandService;
 import org.medTechSolutions.platform.profiles_service.User.Domain.Services.PatientQueryService;
 import org.medTechSolutions.platform.profiles_service.User.Interfaces.rest.Resources.CreatePatientResource;
@@ -25,10 +26,12 @@ public class PatientController {
 
     private final PatientCommandService patientCommandService;
     private final PatientQueryService patientQueryService;
+    private final EmailClient emailClient;
 
-    public PatientController(PatientCommandService patientCommandService, PatientQueryService patientQueryService) {
+    public PatientController(PatientCommandService patientCommandService, PatientQueryService patientQueryService, EmailClient emailClient) {
         this.patientCommandService = patientCommandService;
         this.patientQueryService = patientQueryService;
+        this.emailClient = emailClient;
     }
 
     @PostMapping
@@ -42,6 +45,10 @@ public class PatientController {
         var patient = patientQueryService.handle(getPatientByIdQuery);
         if (patient.isEmpty()) return ResponseEntity.badRequest().build();
         var patientResource = PatientResourceFromEntityAssembler.toResourceFromEntity(patient.get());
+
+        String body = "Hola!!, Bienvenido a MedSystem, te registraste con este correo " + " " + patient.get().getEmail() + ", te has registrado como paciente";
+        emailClient.sendEmail(patient.get().getEmail(), "Bienvenido a MedSystem", body);
+
         return new ResponseEntity<>(patientResource, HttpStatus.CREATED);
     }
 
