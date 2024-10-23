@@ -57,12 +57,9 @@ public class PatientCommandServiceImplTest {
     void testCreatePatientFailure() {
         // Setup
         CreatePatientCommand command = new CreatePatientCommand(
-                "John",
+                1L,
                 "Doe",
-                30,
-                "123 Main St",
-                "123-456-7890",
-                "john.doe@example.com");
+                "Patient");
         when(patientRepository.save(any(Patient.class))).thenThrow(
                 new RuntimeException("Database error"));
 

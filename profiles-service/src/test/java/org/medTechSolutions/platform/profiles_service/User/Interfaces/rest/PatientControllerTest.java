@@ -33,11 +33,7 @@ class PatientControllerTest {
     void setUp() throws Exception {
         CreatePatientResource createPatientResource = new CreatePatientResource(
                 "John",
-                "Doe",
-                45,
-                "123 Main St",
-                "987654321",
-                "john@example.com");
+                "Doe");
 
         String response = mockMvc.perform(post("/api/v1/patients")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -54,11 +50,7 @@ class PatientControllerTest {
     void testCreatePatient() throws Exception {
         CreatePatientResource createPatientResource = new CreatePatientResource(
                 "Alison",
-                "Doe",
-                50,
-                "456 Elm St",
-                "987654321",
-                "alison@example.com");
+                "Doe");
 
         mockMvc.perform(post("/api/v1/patients")
                         .contentType(MediaType.APPLICATION_JSON)

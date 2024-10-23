@@ -8,14 +8,11 @@ import lombok.Setter;
 import org.medTechSolutions.platform.security_service.auth.domain.model.entities.Role;
 import org.medTechSolutions.platform.security_service.auth.domain.model.entities.SecurityProfiles;
 import org.medTechSolutions.platform.security_service.auth.interfaces.rest.clientDTOS.DoctorDTO;
-import org.medTechSolutions.platform.security_service.auth.interfaces.rest.clientDTOS.LaboratoryDTO;
 import org.medTechSolutions.platform.security_service.auth.interfaces.rest.clientDTOS.PatientDTO;
 import org.medTechSolutions.platform.security_service.shared.domain.model.aggregates.AuditableAbstractAggregateRoot;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Getter
@@ -41,9 +38,6 @@ public class User extends AuditableAbstractAggregateRoot<User> {
 
     @Transient
     private List<DoctorDTO> doctorDTO = new ArrayList<>();
-
-    @Transient
-    private List<LaboratoryDTO> laboratoryDTO = new ArrayList<>();
 
     @Transient
     private List<PatientDTO> patientDTO = new ArrayList<>();
@@ -76,10 +70,6 @@ public class User extends AuditableAbstractAggregateRoot<User> {
         this.doctorDTO.add(doctorDTO);
     }
 
-    public void addLaboratory(LaboratoryDTO laboratoryDTO) {
-        this.laboratoryDTO.add(laboratoryDTO);
-    }
-
     public void addPatient(PatientDTO patientDTO) {
         this.patientDTO.add(patientDTO);
     }
@@ -88,9 +78,6 @@ public class User extends AuditableAbstractAggregateRoot<User> {
         this.doctorDTO.remove(doctorDTO);
     }
 
-    public void removeLaboratory(LaboratoryDTO laboratoryDTO) {
-        this.laboratoryDTO.remove(laboratoryDTO);
-    }
 
     public void removePatient(PatientDTO patientDTO) {
         this.patientDTO.remove(patientDTO);
