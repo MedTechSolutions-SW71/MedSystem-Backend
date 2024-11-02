@@ -6,6 +6,8 @@ import org.medTechSolutions.platform.profiles_service.User.Domain.Model.Commands
 import org.medTechSolutions.platform.profiles_service.User.Domain.Model.Commands.UpdateDoctorCommand;
 import org.medTechSolutions.platform.profiles_service.User.Domain.Model.Queries.GetAllDoctorQuery;
 import org.medTechSolutions.platform.profiles_service.User.Domain.Model.Queries.GetDoctorByIdQuery;
+import org.medTechSolutions.platform.profiles_service.User.Domain.Model.Queries.GetDoctorBySpecialityQuery;
+import org.medTechSolutions.platform.profiles_service.User.Domain.Model.ValueObjects.Specialities;
 import org.medTechSolutions.platform.profiles_service.User.Domain.Services.DoctorCommandService;
 import org.medTechSolutions.platform.profiles_service.User.Domain.Services.DoctorQueryService;
 import org.medTechSolutions.platform.profiles_service.User.Domain.Services.EmailClient;
@@ -72,6 +74,27 @@ public class DoctorController {
         var doctorResource = DoctorResourceFromEntityAssembler.toResourceFromEntity(doctor.get());
         return ResponseEntity.ok(doctorResource);
     }
+
+    @GetMapping("/speciality/{speciality}")
+    public ResponseEntity<List<DoctorResource>> getDoctorBySpeciality(@PathVariable String speciality) {
+        try {
+            // Convertir la especialidad a Enum y manejar posibles errores de conversión
+            Specialities specialityEnum = Specialities.valueOf(speciality.toUpperCase());
+            var getDoctorBySpecialityQuery = new GetDoctorBySpecialityQuery(specialityEnum);
+
+            // Obtener los doctores y mapearlos a recursos
+            var doctors = doctorQueryService.handle(getDoctorBySpecialityQuery);
+            var doctorResources = doctors.stream()
+                    .map(DoctorResourceFromEntityAssembler::toResourceFromEntity)
+                    .toList();
+
+            return ResponseEntity.ok(doctorResources);
+        } catch (IllegalArgumentException e) {
+            // Devolver un mensaje de error en caso de que la especialidad no sea válida
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
 
     @GetMapping
     public ResponseEntity<List<DoctorResource>> getAllDoctor() {

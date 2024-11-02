@@ -3,6 +3,7 @@ package org.medTechSolutions.platform.profiles_service.User.Application.internal
 import org.medTechSolutions.platform.profiles_service.User.Domain.Model.Aggregates.Doctor;
 import org.medTechSolutions.platform.profiles_service.User.Domain.Model.Queries.GetAllDoctorQuery;
 import org.medTechSolutions.platform.profiles_service.User.Domain.Model.Queries.GetDoctorByIdQuery;
+import org.medTechSolutions.platform.profiles_service.User.Domain.Model.Queries.GetDoctorBySpecialityQuery;
 import org.medTechSolutions.platform.profiles_service.User.Domain.Services.DoctorQueryService;
 import org.medTechSolutions.platform.profiles_service.User.Infrastructure.persistence.jpa.repositories.DoctorRepository;
 import org.springframework.stereotype.Service;
@@ -28,4 +29,5 @@ public class DoctorQueryServiceImpl implements DoctorQueryService {
     public List<Doctor> handle(GetAllDoctorQuery query) {
         return doctorRepository.findAll();
     }
-}
+
+    public List<Doctor> handle(GetDoctorBySpecialityQuery query) { return doctorRepository.findBySpecialities(query.specialities()); }}
