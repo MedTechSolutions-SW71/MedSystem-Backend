@@ -22,12 +22,14 @@ public class Exam extends AuditableAbstractAggregateRoot<Exam> {
     private Long patientId;
     @NotBlank
     private String examType;
-    @NotBlank(message = "Exam date is required")
+    @NotNull(message = "Exam date is required")
     private Date examDate;
     @NotNull
     private Date examResultDate;
     @NotNull
     private Boolean examResult;
+
+    //private String examUrl;
 
     public Exam(){}
 
