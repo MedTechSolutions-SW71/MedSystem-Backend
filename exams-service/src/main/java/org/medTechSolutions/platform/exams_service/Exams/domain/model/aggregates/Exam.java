@@ -1,5 +1,6 @@
 package org.medTechSolutions.platform.exams_service.Exams.domain.model.aggregates;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.Entity;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -9,6 +10,7 @@ import lombok.Setter;
 import org.medTechSolutions.platform.exams_service.Exams.domain.model.commands.CreateExamCommand;
 import org.medTechSolutions.platform.exams_service.Shared.domain.model.aggregates.AuditableAbstractAggregateRoot;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Getter
@@ -22,11 +24,13 @@ public class Exam extends AuditableAbstractAggregateRoot<Exam> {
     private Long patientId;
     @NotBlank
     private String examType;
-    @NotNull(message = "Exam date is required")
-    private Date examDate;
-    @NotNull
-    private Date examResultDate;
-    @NotNull
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "America/Lima")
+    private LocalDate examDate;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "America/Lima")
+    private LocalDate examResultDate;
+
     private Boolean examResult;
 
     //private String examUrl;

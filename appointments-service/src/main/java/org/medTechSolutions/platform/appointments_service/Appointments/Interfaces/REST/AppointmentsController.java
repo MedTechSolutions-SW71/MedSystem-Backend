@@ -26,6 +26,7 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "/api/v1/appointments", produces = MediaType.APPLICATION_JSON_VALUE)
 @Tag(name = "Appointments", description = "Endpoints for managing appointments")
+@CrossOrigin(origins = "*")
 public class AppointmentsController {
     private final AppointmentCommandService appointmentCommandService;
     private final AppointmentQueryService appointmentQueryService;
