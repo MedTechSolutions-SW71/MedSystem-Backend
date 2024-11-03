@@ -9,11 +9,9 @@ public class UpdateDoctorCommandFromResourceAssembler {
                 id,
                 resource.firstName(),
                 resource.lastName(),
-                resource.specialization(),
                 resource.licenceNumber(),
-                resource.phone(),
-                resource.email()
-                //resource.idLaboratory()
+                resource.specialities(),
+                resource.phone()
         );
     }
 }

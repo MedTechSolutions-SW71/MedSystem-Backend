@@ -29,7 +29,7 @@ public class ExamCommandServiceImpl implements ExamCommandService {
         if(result.isEmpty()) throw new IllegalArgumentException("Exam not found");
         var examToUpdate = result.get();
         try {
-            var updatedExam = examRepository.save(examToUpdate.updateExamResult());
+            var updatedExam = examRepository.save(examToUpdate.updateExamResult(command.examResultsReady(),command.examResultsUrl()));
             return Optional.of(updatedExam);
         }catch (Exception e) {
             throw new IllegalArgumentException("Failed to update exam result" + e.getMessage());

@@ -1,5 +1,5 @@
 package org.medTechSolutions.platform.security_service.auth.application.internal.communicationServiceImpl;
-
+/*
 import jakarta.transaction.Transactional;
 import org.medTechSolutions.platform.security_service.auth.domain.model.aggregates.User;
 import org.medTechSolutions.platform.security_service.auth.domain.model.entities.SecurityProfiles;
@@ -7,6 +7,7 @@ import org.medTechSolutions.platform.security_service.auth.domain.services.Secur
 import org.medTechSolutions.platform.security_service.auth.infrastructure.clients.ProfileClientRest;
 import org.medTechSolutions.platform.security_service.auth.infrastructure.persistence.jpa.repositories.UserRepository;
 import org.medTechSolutions.platform.security_service.auth.interfaces.rest.clientDTOS.*;
+import org.medTechSolutions.platform.security_service.auth.interfaces.rest.resources.UserResource;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -34,89 +35,37 @@ public class SecurityProfileServiceImpl implements SecurityProfilesService {
 
     @Override
     @Transactional
-    public Optional<CreateDoctorDTO> createDoctorProfile(CreateDoctorDTO createDoctorDTO, Long doctorId) {
-        return userRepository.findById(doctorId)
+    public Optional<CreateDoctorDTO> createDoctorProfile(CreateDoctorDTO createDoctorDTO) {
+        return userRepository.findById(createDoctorDTO.getUserId())
                 .map(user -> {
-                    DoctorDTO doctorDTO = profileClientRest.createDoctor(createDoctorDTO);
-                    SecurityProfiles securityProfiles = ensureSecurityProfileExists(user);
-                    if (securityProfiles.getLaboratoryId() != null) {
-                        throw new IllegalArgumentException("Este usuario ya tiene un perfil de laboratorio.");
+                    try {
+                        UserResource userResource = new UserResource(createDoctorDTO.getUserId(), user.getEmail(), "DOCTOR");
+                        DoctorDTO doctorDTO = profileClientRest.createDoctor(userResource);
+                        SecurityProfiles securityProfiles = ensureSecurityProfileExists(user);
+                        securityProfiles.setDoctorId(doctorDTO.getDoctorId());
+                        userRepository.save(user);
+                        return createDoctorDTO;
+                    } catch (Exception e) {
+                        throw new IllegalArgumentException("Este usuario ya tiene un perfil de doctor.");
                     }
-                    securityProfiles.setLaboratoryId(doctorDTO.doctorId());
-                    userRepository.save(user);
-                    return createDoctorDTO;
-                });
-    }
-
-
-    @Override
-    @Transactional
-    public Optional<CreateLaboratoryDTO> createLaboratoryProfile(CreateLaboratoryDTO createLaboratoryDTO, Long laboratoryId) {
-        return userRepository.findById(laboratoryId)
-                .map(user -> {
-                    LaboratoryDTO laboratoryDTO = profileClientRest.createLaboratory(createLaboratoryDTO);
-                    SecurityProfiles securityProfiles = ensureSecurityProfileExists(user);
-                    if (securityProfiles.getLaboratoryId() != null) {
-                        throw new IllegalArgumentException("Este usuario ya tiene un perfil de laboratorio.");
-                    }
-                    securityProfiles.setLaboratoryId(laboratoryDTO.laboratoryId());
-                    userRepository.save(user);
-                    return createLaboratoryDTO;
                 });
     }
 
     @Override
     @Transactional
-    public Optional<CreatePatientDTO> createPatientProfile(CreatePatientDTO createPatientDTO, Long patientId) {
-        return userRepository.findById(patientId)
+    public Optional<CreatePatientDTO> createPatientProfile(CreatePatientDTO createPatientDTO) {
+        return userRepository.findById(createPatientDTO.getUserId())
                 .map(user -> {
-                    PatientDTO patientDTO = profileClientRest.createPatient(createPatientDTO);
-                    SecurityProfiles securityProfiles = ensureSecurityProfileExists(user);
-                    if (securityProfiles.getPatientId() != null) {
+                    try {
+                        UserResource userResource = new UserResource(createPatientDTO.getUserId(), user.getEmail(), "PATIENT");
+                        PatientDTO patientDTO = profileClientRest.createPatient(userResource);
+                        SecurityProfiles securityProfiles = ensureSecurityProfileExists(user);
+                        securityProfiles.setPatientId(patientDTO.getPatientId());
+                        userRepository.save(user);
+                        return createPatientDTO;
+                    } catch (Exception e) {
                         throw new IllegalArgumentException("Este usuario ya tiene un perfil de paciente.");
                     }
-                    securityProfiles.setPatientId(patientDTO.patientId());
-                    userRepository.save(user);
-                    return createPatientDTO;
                 });
     }
-
-    @Override
-    @Transactional
-    public void deleteDoctorProfile(Long doctorId) {
-        userRepository.findById(doctorId).ifPresent(user -> {
-            SecurityProfiles securityProfiles = user.getSecurityProfiles();
-            if (securityProfiles != null) {
-                securityProfiles.setDoctorId(null);
-                profileClientRest.deleteDoctor(doctorId);
-                userRepository.save(user);
-            }
-        });
-    }
-
-    @Override
-    @Transactional
-    public void deleteLaboratoryProfile(Long laboratoryId) {
-        userRepository.findById(laboratoryId).ifPresent(user -> {
-            SecurityProfiles securityProfiles = user.getSecurityProfiles();
-            if (securityProfiles != null) {
-                securityProfiles.setLaboratoryId(null);
-                profileClientRest.deleteLaboratory(laboratoryId);
-                userRepository.save(user);
-            }
-        });
-    }
-
-    @Override
-    @Transactional
-    public void deletePatientProfile(Long patientId) {
-        userRepository.findById(patientId).ifPresent(user -> {
-            SecurityProfiles securityProfiles = user.getSecurityProfiles();
-            if (securityProfiles != null) {
-                securityProfiles.setPatientId(null);
-                profileClientRest.deletePatient(patientId);
-                userRepository.save(user);
-            }
-        });
-    }
-}
+}*/

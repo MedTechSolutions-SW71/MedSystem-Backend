@@ -5,8 +5,12 @@ import org.medTechSolutions.platform.appointments_service.Appointments.Domain.Mo
 import org.medTechSolutions.platform.appointments_service.Appointments.Domain.Model.Commands.DeleteAppointmentCommand;
 import org.medTechSolutions.platform.appointments_service.Appointments.Domain.Model.Commands.UpdateAppointmentDateCommand;
 import org.medTechSolutions.platform.appointments_service.Appointments.Domain.Model.Commands.UpdateAppointmentReasonCommand;
+import org.medTechSolutions.platform.appointments_service.Appointments.Domain.Model.ValueObjects.Specialties;
 import org.medTechSolutions.platform.appointments_service.Appointments.Domain.Services.AppointmentCommandService;
+import org.medTechSolutions.platform.appointments_service.Appointments.Infrastructure.clients.ChatServiceClient;
 import org.medTechSolutions.platform.appointments_service.Appointments.Infrastructure.persistance.jpa.repositories.AppointmentRepository;
+import org.medTechSolutions.platform.appointments_service.Appointments.Infrastructure.persistance.jpa.repositories.SpecialtyRepository;
+import org.medTechSolutions.platform.appointments_service.Appointments.Interfaces.REST.clientsDTO.ChatRoomRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -14,17 +18,31 @@ import java.util.Optional;
 @Service
 public class AppointmentCommandServiceImpl implements AppointmentCommandService {
     private final AppointmentRepository appointmentRepository;
+    private final SpecialtyRepository specialtyRepository;
+    private final ChatServiceClient chatServiceClient;
 
-    public AppointmentCommandServiceImpl(AppointmentRepository appointmentRepository) {
+    public AppointmentCommandServiceImpl(AppointmentRepository appointmentRepository, SpecialtyRepository specialtyRepository, ChatServiceClient chatServiceClient) {
         this.appointmentRepository = appointmentRepository;
+        this.specialtyRepository = specialtyRepository;
+        this.chatServiceClient = chatServiceClient;
     }
 
     //Create appointment
     @Override
     public Optional<Appointment> handle(CreateAppointmentCommand command) {
-
-        var appointment = new Appointment(command);
+        var specialty = Specialties.valueOf(command.specialty());
+        var appointment = new Appointment(command.doctorId(), command.patientId(), command.date(), command.reason(), specialtyRepository.findByName(specialty).get());
         appointmentRepository.save(appointment);
+
+        // Create chat room
+        ChatRoomRequest chatRoomRequest = new ChatRoomRequest(
+                appointment.getId().toString(),
+                appointment.getDoctorId().toString(),
+                appointment.getPatientId().toString()
+        );
+
+        chatServiceClient.createChatRoom(chatRoomRequest);
+
         return Optional.of(appointment);
     }
 
@@ -49,7 +67,7 @@ public class AppointmentCommandServiceImpl implements AppointmentCommandService 
         var appointmentDate = command.date();
 
 
-        appointment.setDate(appointmentDate); // actualiza
+        appointment.setDate(appointmentDate); // update
 
         return Optional.of(appointmentRepository.save(appointment));
 

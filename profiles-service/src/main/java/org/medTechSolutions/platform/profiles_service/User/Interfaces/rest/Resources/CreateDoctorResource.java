@@ -1,12 +1,10 @@
 package org.medTechSolutions.platform.profiles_service.User.Interfaces.rest.Resources;
 
+import org.medTechSolutions.platform.profiles_service.User.Domain.Model.ValueObjects.Specialities;
+
 public record CreateDoctorResource(
-        String firstName,
-        String lastName,
-        String specialization,
-        Integer licenceNumber,
-        String phone,
-        String email
+        String email,
+        String role
         //Long idLaboratory
 ) {
 }

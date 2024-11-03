@@ -8,7 +8,11 @@ import org.medTechSolutions.platform.profiles_service.shared.domain.model.aggreg
 
 @Getter
 @Entity
+@Setter
 public class Patient extends AuditableAbstractAggregateRoot<Patient> {
+
+    @Id
+    private Long userId;
 
     @Column(name = "first_name")
     private String firstName;
@@ -25,21 +29,12 @@ public class Patient extends AuditableAbstractAggregateRoot<Patient> {
     private String email;
 
     public Patient() {
-        this.firstName = "default";
-        this.lastName = "default";
-        this.age = null;
-        this.address = "default";
-        this.phone = "default";
-        this.email = "default";
+
     }
 
     public Patient(CreatePatientCommand command) {
         this();
-        this.firstName = command.firstName();
-        this.lastName = command.lastName();
-        this.age = command.age();
-        this.address = command.address();
-        this.phone = command.phone();
+        this.userId = command.id();
         this.email = command.email();
     }
 

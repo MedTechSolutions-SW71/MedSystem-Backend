@@ -9,8 +9,7 @@ public class CreateExamCommandFromResourceAssembler {
                 resource.doctorId(),
                 resource.patientId(),
                 resource.examType(),
-                resource.examDate(),
-                resource.examResulDate()
+                resource.examDate()
         );
     }
 }

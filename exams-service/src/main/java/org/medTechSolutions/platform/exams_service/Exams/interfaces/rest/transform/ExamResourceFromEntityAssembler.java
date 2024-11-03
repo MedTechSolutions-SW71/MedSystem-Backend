@@ -12,7 +12,8 @@ public class ExamResourceFromEntityAssembler {
                 exam.getExamType(),
                 exam.getExamDate(),
                 exam.getExamResultDate(),
-                exam.getExamResult()
+                exam.getExamResultsReady(),
+                exam.getExamResultsUrl()
         );
     }
 }
