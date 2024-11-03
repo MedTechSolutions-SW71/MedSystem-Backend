@@ -17,6 +17,7 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "/api/v1/results", produces = MediaType.APPLICATION_JSON_VALUE)
 @Tag(name = "Results", description = "Results Management Endpoints")
+@CrossOrigin(origins = "*")
 public class ResultsController {
     private final ResultQueryService resultQueryService;
     private final ResultCommandService resultCommandService;

@@ -1,12 +1,12 @@
 package org.medTechSolutions.platform.treatments_service.domain.model.valueobjects;
 
-public record Period(String startDate, String endDate) {
+public record Period(String endDate, String startDate) {
     public Period() {
         this(null, null);
     }
 
     public String getPeriod() {
-        return String.format("From %s to %s", startDate, endDate);
+        return String.format("From %s to %s", endDate, startDate);
     }
 
     public Period {

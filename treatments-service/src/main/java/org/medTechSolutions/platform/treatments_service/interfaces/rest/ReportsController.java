@@ -23,6 +23,7 @@ import static org.springframework.http.HttpStatus.CREATED;
 @RestController
 @RequestMapping("/api/v1/reports")
 @Tag(name = "Reports", description = "Report Management Endpoints")
+@CrossOrigin(origins = "*")
 public class ReportsController {
     private final ReportCommandService reportCommandService;
     private final ReportQueryService reportQueryService;
