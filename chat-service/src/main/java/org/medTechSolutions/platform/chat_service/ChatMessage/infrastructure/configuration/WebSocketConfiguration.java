@@ -1,4 +1,4 @@
-package org.medTechSolutions.platform.chat_service.configuration;
+package org.medTechSolutions.platform.chat_service.ChatMessage.infrastructure.configuration;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
