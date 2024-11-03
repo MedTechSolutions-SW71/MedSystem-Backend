@@ -5,13 +5,12 @@ import jakarta.persistence.Entity;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
-import lombok.NonNull;
 import lombok.Setter;
 import org.medTechSolutions.platform.exams_service.Exams.domain.model.commands.CreateExamCommand;
 import org.medTechSolutions.platform.exams_service.Shared.domain.model.aggregates.AuditableAbstractAggregateRoot;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 @Getter
 @Entity
@@ -29,11 +28,12 @@ public class Exam extends AuditableAbstractAggregateRoot<Exam> {
     private LocalDate examDate;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "America/Lima")
+    @LastModifiedDate
     private LocalDate examResultDate;
 
-    private Boolean examResult;
+    private Boolean examResultsReady;
 
-    //private String examUrl;
+    private String examResultsUrl;
 
     public Exam(){}
 
@@ -42,12 +42,12 @@ public class Exam extends AuditableAbstractAggregateRoot<Exam> {
         this.patientId = command.patientId();
         this.examType = command.examType();
         this.examDate = command.examDate();
-        this.examResultDate = command.examResultDate();
-        this.examResult = false;
+        this.examResultsReady = false;
     }
 
-    public Exam updateExamResult() {
-        this.examResult = true;
+    public Exam updateExamResult(Boolean examResultsReady, String examResultsUrl) {
+        this.examResultsReady = examResultsReady;
+        this.examResultsUrl = examResultsUrl;
         return this;
     }
 }

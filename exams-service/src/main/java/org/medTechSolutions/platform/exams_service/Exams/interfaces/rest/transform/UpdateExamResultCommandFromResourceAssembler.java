@@ -7,7 +7,8 @@ public class UpdateExamResultCommandFromResourceAssembler {
     public static UpdateExamCommand toCommandFromResource(Long examId,UpdateExamResultResource resource) {
         return new UpdateExamCommand(
                 examId,
-                resource.examResult()
+                resource.examResultsReady(),
+                resource.examResultsUrl()
         );
     }
 }

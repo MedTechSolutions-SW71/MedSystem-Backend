@@ -1,4 +1,6 @@
 package org.medTechSolutions.platform.exams_service.Exams.interfaces.rest.resources;
 
-public record UpdateExamResultResource(Boolean examResult) {
+import java.time.LocalDate;
+
+public record UpdateExamResultResource(Boolean examResultsReady, String examResultsUrl) {
 }

@@ -13,8 +13,6 @@ public record CreateExamResource(
         @NotNull(message = "Exam type is required")
         String examType,
         @NotNull(message = "Exam date is required")
-        LocalDate examDate,
-        @NotNull(message = "Exam result is required")
-        LocalDate examResulDate
+        LocalDate examDate
 ) {
 }
