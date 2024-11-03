@@ -4,7 +4,7 @@ public record DoctorDTO(
         Long doctorId,
         String firstName,
         String lastName,
-        String specialization,
+        String specialities,
         Integer licenceNumber,
         String phone
 ) {
