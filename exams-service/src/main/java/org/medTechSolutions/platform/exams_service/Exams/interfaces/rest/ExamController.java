@@ -23,6 +23,7 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "/api/v1/exams", produces = MediaType.APPLICATION_JSON_VALUE)
 @Tag(name = "Exams", description = "Endpoints for managing exams")
+@CrossOrigin(origins = "*")
 public class ExamController {
     private final ExamCommandService examCommandService;
     private final ExamQueryService examQueryService;
@@ -53,7 +54,7 @@ public class ExamController {
     }
 
     //Get exam by doctorId
-    @GetMapping("/{doctorId}")
+    @GetMapping("doctor/{doctorId}")
     public ResponseEntity<List<ExamResource>> getExamsByDoctorId(@PathVariable Long doctorId) {
         var getExamsByDoctorIdQuery = new GetExamsByDoctorIdQuery(doctorId);
         var exams = examQueryService.handle(getExamsByDoctorIdQuery);
@@ -64,7 +65,7 @@ public class ExamController {
     }
 
     //Get exam by patientId
-    @GetMapping("/{patientId}")
+    @GetMapping("patient/{patientId}")
     public ResponseEntity<List<ExamResource>> getExamsByPatientId(@PathVariable Long patientId) {
         var getExamsByPatientIdQuery = new GetExamsByPatientIdQuery(patientId);
         var exams = examQueryService.handle(getExamsByPatientIdQuery);

@@ -1,5 +1,6 @@
 package org.medTechSolutions.platform.exams_service.Exams.interfaces.rest.resources;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 public record ExamResource(
@@ -7,8 +8,8 @@ public record ExamResource(
         Long doctorId,
         Long patientId,
         String examType,
-        Date examDate,
-        Date examResultDate,
+        LocalDate examDate,
+        LocalDate examResultDate,
         Boolean examResult
 ) {
 }
