@@ -10,7 +10,8 @@ public class CreateTreatmentCommandFromResourceAssembler {
                 resource.description(),
                 resource.startDate(),
                 resource.endDate(),
-                resource.patientId()
+                resource.patientId(),
+                resource.doctorId()
         );
     }
 }

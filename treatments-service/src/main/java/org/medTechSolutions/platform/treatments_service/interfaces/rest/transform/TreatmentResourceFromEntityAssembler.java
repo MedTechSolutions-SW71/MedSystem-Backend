@@ -13,7 +13,8 @@ public class TreatmentResourceFromEntityAssembler {
                 entity.getTreatmentName(),
                 entity.getDescription(),
                 entity.getPeriod(),
-                entity.getPatientId()
+                entity.getPatientId(),
+                entity.getDoctorId()
         );
     }
 }
