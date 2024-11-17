@@ -3,6 +3,7 @@ package org.medTechSolutions.platform.treatments_service.application.internal.qu
 
 import org.medTechSolutions.platform.treatments_service.domain.model.aggregates.Treatment;
 import org.medTechSolutions.platform.treatments_service.domain.model.queries.GetAllTreatmentsQuery;
+import org.medTechSolutions.platform.treatments_service.domain.model.queries.GetTreatmentByDoctorIdQuery;
 import org.medTechSolutions.platform.treatments_service.domain.model.queries.GetTreatmentByPatientIdQuery;
 import org.medTechSolutions.platform.treatments_service.domain.services.TreatmentQueryService;
 import org.medTechSolutions.platform.treatments_service.infrastucture.persistence.jpa.repositories.TreatmentRepository;
@@ -27,5 +28,10 @@ public class TreatmentQueryServiceImpl implements TreatmentQueryService {
     @Override
     public List<Treatment> handle(GetTreatmentByPatientIdQuery query) {
         return treatmentRepository.findByPatientId(query.patientId());
+    }
+
+    @Override
+    public List<Treatment> handle(GetTreatmentByDoctorIdQuery query) {
+        return treatmentRepository.findByDoctorId(query.doctorId());
     }
 }

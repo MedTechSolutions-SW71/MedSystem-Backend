@@ -12,5 +12,6 @@ import java.util.Optional;
 public interface TreatmentRepository extends JpaRepository<Treatment, Long> {
     boolean existsByTreatmentNameAndPatientId(String treatmentName, Long patientId);
     List<Treatment> findByPatientId(Long patientId);
+    List<Treatment> findByDoctorId(Long doctorId);
     Optional<Treatment> findByTreatmentName(String treatmentName);
 }

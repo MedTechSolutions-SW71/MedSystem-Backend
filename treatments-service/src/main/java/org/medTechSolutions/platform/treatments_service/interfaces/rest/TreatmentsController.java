@@ -3,6 +3,7 @@ package org.medTechSolutions.platform.treatments_service.interfaces.rest;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.medTechSolutions.platform.treatments_service.domain.model.commands.DeleteTreatmentCommand;
 import org.medTechSolutions.platform.treatments_service.domain.model.queries.GetAllTreatmentsQuery;
+import org.medTechSolutions.platform.treatments_service.domain.model.queries.GetTreatmentByDoctorIdQuery;
 import org.medTechSolutions.platform.treatments_service.domain.model.queries.GetTreatmentByPatientIdQuery;
 import org.medTechSolutions.platform.treatments_service.domain.services.TreatmentCommandService;
 import org.medTechSolutions.platform.treatments_service.domain.services.TreatmentQueryService;
@@ -52,6 +53,16 @@ public class TreatmentsController {
     public ResponseEntity<List<TreatmentResource>> getTreatmentByPatientId(@PathVariable Long patientId){
         var getTreatmentByPatientIdQuery = new GetTreatmentByPatientIdQuery(patientId);
         var treatment = treatmentQueryService.handle(getTreatmentByPatientIdQuery);
+        if (treatment.isEmpty())
+            return ResponseEntity.notFound().build();
+        var treatmentResources = treatment.stream().map(TreatmentResourceFromEntityAssembler::toResourceFromEntity).toList();
+        return ResponseEntity.ok(treatmentResources);
+    }
+
+    @GetMapping("doctorId/{doctorId}")
+    public ResponseEntity<List<TreatmentResource>> getTreatmentByDoctorId(@PathVariable Long doctorId){
+        var getTreatmentByDoctorIdQuery = new GetTreatmentByDoctorIdQuery(doctorId);
+        var treatment = treatmentQueryService.handle(getTreatmentByDoctorIdQuery);
         if (treatment.isEmpty())
             return ResponseEntity.notFound().build();
         var treatmentResources = treatment.stream().map(TreatmentResourceFromEntityAssembler::toResourceFromEntity).toList();

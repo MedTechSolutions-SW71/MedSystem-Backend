@@ -28,6 +28,9 @@ public class Treatment extends AuditableModel {
     @Column(name = "patient_id", nullable = false)
     private Long patientId;
 
+    @Column(name = "doctor_id", nullable = false)
+    private Long doctorId;
+
     @Embedded
     @AttributeOverrides({
             @AttributeOverride(name = "startDate", column = @Column(name = "start_date")),
@@ -39,6 +42,7 @@ public class Treatment extends AuditableModel {
         this.treatmentName = command.treatmentName();
         this.description = command.description();
         this.patientId = command.patientId();
+        this.doctorId = command.doctorId();
         this.period = new Period(command.startDate(), command.endDate());
     }
 
